@@ -631,7 +631,7 @@ namespace PasswordGenerator {
 			this->button5->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button5->Location = System::Drawing::Point(207, 73);
-			this->button5->Name = L"button5";
+		 this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(169, 30);
 			this->button5->TabIndex = 27;
 			this->button5->Text = L"Save as .key";
@@ -849,12 +849,23 @@ namespace PasswordGenerator {
 		saveKeyDialog->Filter = "KEY File(*.key)|*.key|All files (*.*)|*.*";
 		saveKeyDialog->FileName = "my.key";
 		System::Windows::Forms::DialogResult result = saveKeyDialog->ShowDialog();
-		// Add your save logic here if needed
-		System::IO::Stream^ myStream = nullptr;
-		if ((myStream = saveKeyDialog->OpenFile()) != nullptr)
-		{
-			// Code to write the stream goes here.
-			myStream->Close();
+		if (result == System::Windows::Forms::DialogResult::OK) {
+			std::string filename = msclr::interop::marshal_as<std::string>(saveKeyDialog->FileName);
+
+			if (key.empty()) {
+				System::Windows::Forms::MessageBox::Show("No key generated to save.", "Save Key", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Warning);
+				return;
+			}
+
+			std::ofstream outputFile(filename, std::ios::binary);
+			if (outputFile.is_open()) {
+				outputFile << key;
+				outputFile.close();
+				System::Windows::Forms::MessageBox::Show("Key successfully saved to:\n" + saveKeyDialog->FileName, "Save Key", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Information);
+			}
+			else {
+				System::Windows::Forms::MessageBox::Show("Unable to open file for writing:\n" + saveKeyDialog->FileName, "Save Key Error", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Error);
+			}
 		}
 	}
 	};
