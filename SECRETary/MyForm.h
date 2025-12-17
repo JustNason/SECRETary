@@ -40,7 +40,7 @@ namespace PasswordGenerator {
 		'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 	};
 
-	std::string key;
+	std::string key = "";
 
 	int keyLength = 10;
 
@@ -71,7 +71,7 @@ namespace PasswordGenerator {
 		}
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Button^ button2;
+
 	private: System::Windows::Forms::TrackBar^ characterSlider;
 	private: System::Windows::Forms::Label^ characterLabel;
 
@@ -98,7 +98,8 @@ namespace PasswordGenerator {
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::TextBox^ passwordName;
+
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
@@ -107,8 +108,9 @@ namespace PasswordGenerator {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Button^ selectFolderButton;
 	private: System::Windows::Forms::FolderBrowserDialog^ openPWDirectory;
+	private: System::Windows::Forms::ListBox^ listPasswords;
 
-	private: System::Windows::Forms::ListBox^ listBox1;
+
 	private: System::Windows::Forms::GroupBox^ groupBox2;
 	private: System::Windows::Forms::GroupBox^ groupBox3;
 	private: System::Windows::Forms::Button^ button6;
@@ -187,7 +189,6 @@ namespace PasswordGenerator {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->characterSlider = (gcnew System::Windows::Forms::TrackBar());
 			this->characterLabel = (gcnew System::Windows::Forms::Label());
@@ -201,10 +202,10 @@ namespace PasswordGenerator {
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->passwordName = (gcnew System::Windows::Forms::TextBox());
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->listPasswords = (gcnew System::Windows::Forms::ListBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->selectFolderButton = (gcnew System::Windows::Forms::Button());
 			this->directoryLabel = (gcnew System::Windows::Forms::Label());
@@ -230,7 +231,6 @@ namespace PasswordGenerator {
 			this->panel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(25)), static_cast<System::Int32>(static_cast<System::Byte>(25)),
 				static_cast<System::Int32>(static_cast<System::Byte>(25)));
 			this->panel1->Controls->Add(this->button3);
-			this->panel1->Controls->Add(this->button2);
 			this->panel1->Controls->Add(this->button1);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Top;
 			this->panel1->Location = System::Drawing::Point(0, 0);
@@ -256,28 +256,7 @@ namespace PasswordGenerator {
 			this->button3->TabIndex = 2;
 			this->button3->TextImageRelation = System::Windows::Forms::TextImageRelation::ImageBeforeText;
 			this->button3->UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			this->button2->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->button2->Dock = System::Windows::Forms::DockStyle::Left;
-			this->button2->FlatAppearance->BorderSize = 0;
-			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button2->Font = (gcnew System::Drawing::Font(L"Bahnschrift", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button2->ForeColor = System::Drawing::Color::White;
-			this->button2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button2.Image")));
-			this->button2->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			this->button2->Location = System::Drawing::Point(250, 0);
-			this->button2->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
-			this->button2->Name = L"button2";
-			this->button2->Padding = System::Windows::Forms::Padding(20, 0, 0, 0);
-			this->button2->Size = System::Drawing::Size(250, 60);
-			this->button2->TabIndex = 1;
-			this->button2->Text = L" USB_01";
-			this->button2->TextImageRelation = System::Windows::Forms::TextImageRelation::ImageBeforeText;
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			this->button3->Visible = false;
 			// 
 			// button1
 			// 
@@ -325,7 +304,7 @@ namespace PasswordGenerator {
 			this->characterLabel->Name = L"characterLabel";
 			this->characterLabel->Size = System::Drawing::Size(214, 21);
 			this->characterLabel->TabIndex = 3;
-			this->characterLabel->Text = L"Password Length: 0 Characters";
+			this->characterLabel->Text = L"Password Length: 8 Characters";
 			// 
 			// checkBoxCL
 			// 
@@ -398,7 +377,7 @@ namespace PasswordGenerator {
 			this->buttonSave->Name = L"buttonSave";
 			this->buttonSave->Size = System::Drawing::Size(741, 50);
 			this->buttonSave->TabIndex = 9;
-			this->buttonSave->Text = L"Save to USB";
+			this->buttonSave->Text = L"Save to Directory";
 			this->buttonSave->UseVisualStyleBackColor = true;
 			this->buttonSave->Click += gcnew System::EventHandler(this, &MyForm::buttonSave_Click);
 			// 
@@ -462,21 +441,21 @@ namespace PasswordGenerator {
 			this->label5->TabIndex = 16;
 			this->label5->Text = L"Name the Password";
 			// 
-			// textBox2
+			// passwordName
 			// 
-			this->textBox2->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
-			this->textBox2->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->textBox2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(100)), static_cast<System::Int32>(static_cast<System::Byte>(100)),
+			this->passwordName->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
+			this->passwordName->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->passwordName->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(100)), static_cast<System::Int32>(static_cast<System::Byte>(100)),
 				static_cast<System::Int32>(static_cast<System::Byte>(100)));
-			this->textBox2->Location = System::Drawing::Point(408, 408);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(360, 28);
-			this->textBox2->TabIndex = 17;
-			this->textBox2->Text = L"https://www.abc.xyz/";
-			this->textBox2->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->textBox2->Enter += gcnew System::EventHandler(this, &MyForm::textBox2_Enter);
-			this->textBox2->Leave += gcnew System::EventHandler(this, &MyForm::textBox2_Leave);
+			this->passwordName->Location = System::Drawing::Point(408, 408);
+			this->passwordName->Name = L"passwordName";
+			this->passwordName->Size = System::Drawing::Size(360, 28);
+			this->passwordName->TabIndex = 17;
+			this->passwordName->Text = L"https://www.abc.xyz/";
+			this->passwordName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->passwordName->Enter += gcnew System::EventHandler(this, &MyForm::textBox2_Enter);
+			this->passwordName->Leave += gcnew System::EventHandler(this, &MyForm::textBox2_Leave);
 			// 
 			// numericUpDown1
 			// 
@@ -487,6 +466,7 @@ namespace PasswordGenerator {
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(68, 28);
 			this->numericUpDown1->TabIndex = 18;
+			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 8, 0, 0, 0 });
 			this->numericUpDown1->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericUpDown1_ValueChanged);
 			// 
 			// groupBox1
@@ -494,7 +474,7 @@ namespace PasswordGenerator {
 			this->groupBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->groupBox1->Controls->Add(this->listBox1);
+			this->groupBox1->Controls->Add(this->listPasswords);
 			this->groupBox1->Controls->Add(this->label2);
 			this->groupBox1->Controls->Add(this->selectFolderButton);
 			this->groupBox1->Controls->Add(this->directoryLabel);
@@ -507,31 +487,31 @@ namespace PasswordGenerator {
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Saved Passwords:";
 			// 
-			// listBox1
+			// listPasswords
 			// 
-			this->listBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			this->listPasswords->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->listBox1->BackColor = System::Drawing::Color::White;
-			this->listBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->listBox1->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->listBox1->FormattingEnabled = true;
-			this->listBox1->ItemHeight = 21;
-			this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(8) {
-				L"Username: EW@#", L"Password: ESWSEWR", L"", L"Username: EW@#",
-					L"Password: ESWSEWR", L"", L"Username: EW@#", L"Password: ESWSEWR"
+			this->listPasswords->BackColor = System::Drawing::Color::White;
+			this->listPasswords->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->listPasswords->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->listPasswords->FormattingEnabled = true;
+			this->listPasswords->ItemHeight = 21;
+			this->listPasswords->Items->AddRange(gcnew cli::array< System::Object^  >(8) {
+				L"Username: EW@#", L"Password: ESWSEWR", L"",
+					L"Username: EW@#", L"Password: ESWSEWR", L"", L"Username: EW@#", L"Password: ESWSEWR"
 			});
-			this->listBox1->Location = System::Drawing::Point(45, 56);
-			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(230, 147);
-			this->listBox1->TabIndex = 22;
+			this->listPasswords->Location = System::Drawing::Point(45, 56);
+			this->listPasswords->Name = L"listPasswords";
+			this->listPasswords->Size = System::Drawing::Size(244, 168);
+			this->listPasswords->TabIndex = 22;
 			// 
 			// label2
 			// 
 			this->label2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(317, 37);
+			this->label2->Location = System::Drawing::Point(318, 38);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(174, 21);
 			this->label2->TabIndex = 21;
@@ -543,7 +523,7 @@ namespace PasswordGenerator {
 			this->selectFolderButton->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->selectFolderButton->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 7.8F, System::Drawing::FontStyle::Bold,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectFolderButton->Location = System::Drawing::Point(573, 34);
+			this->selectFolderButton->Location = System::Drawing::Point(574, 35);
 			this->selectFolderButton->Name = L"selectFolderButton";
 			this->selectFolderButton->Size = System::Drawing::Size(141, 30);
 			this->selectFolderButton->TabIndex = 20;
@@ -556,7 +536,7 @@ namespace PasswordGenerator {
 			this->directoryLabel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->directoryLabel->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->directoryLabel->Location = System::Drawing::Point(397, 67);
+			this->directoryLabel->Location = System::Drawing::Point(398, 68);
 			this->directoryLabel->Name = L"directoryLabel";
 			this->directoryLabel->Size = System::Drawing::Size(317, 21);
 			this->directoryLabel->TabIndex = 0;
@@ -573,25 +553,25 @@ namespace PasswordGenerator {
 			this->groupBox2->Location = System::Drawing::Point(21, 27);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			this->groupBox2->Size = System::Drawing::Size(271, 230);
+			this->groupBox2->Size = System::Drawing::Size(291, 230);
 			this->groupBox2->TabIndex = 23;
 			this->groupBox2->TabStop = false;
 			// 
 			// groupBox3
 			// 
-			this->groupBox3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
+			this->groupBox3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->groupBox3->Controls->Add(this->keyBox);
 			this->groupBox3->Controls->Add(this->button6);
 			this->groupBox3->Controls->Add(this->button5);
 			this->groupBox3->Controls->Add(this->button4);
 			this->groupBox3->Controls->Add(this->label1);
-			this->groupBox3->Location = System::Drawing::Point(319, 92);
+			this->groupBox3->Location = System::Drawing::Point(329, 92);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(395, 165);
+			this->groupBox3->Size = System::Drawing::Size(386, 165);
 			this->groupBox3->TabIndex = 25;
 			this->groupBox3->TabStop = false;
+			this->groupBox3->Enter += gcnew System::EventHandler(this, &MyForm::groupBox3_Enter);
 			// 
 			// keyBox
 			// 
@@ -604,7 +584,7 @@ namespace PasswordGenerator {
 				static_cast<System::Int32>(static_cast<System::Byte>(100)));
 			this->keyBox->Location = System::Drawing::Point(62, 34);
 			this->keyBox->Name = L"keyBox";
-			this->keyBox->Size = System::Drawing::Size(314, 28);
+			this->keyBox->Size = System::Drawing::Size(296, 28);
 			this->keyBox->TabIndex = 20;
 			this->keyBox->Text = L"Open or Generate Key";
 			this->keyBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
@@ -618,7 +598,7 @@ namespace PasswordGenerator {
 				static_cast<System::Byte>(0)));
 			this->button6->Location = System::Drawing::Point(20, 109);
 			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(357, 30);
+			this->button6->Size = System::Drawing::Size(339, 30);
 			this->button6->TabIndex = 28;
 			this->button6->Text = L"Generate Key";
 			this->button6->UseVisualStyleBackColor = true;
@@ -631,8 +611,8 @@ namespace PasswordGenerator {
 			this->button5->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button5->Location = System::Drawing::Point(207, 73);
-		 this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(169, 30);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(151, 30);
 			this->button5->TabIndex = 27;
 			this->button5->Text = L"Save as .key";
 			this->button5->UseVisualStyleBackColor = true;
@@ -646,7 +626,7 @@ namespace PasswordGenerator {
 				static_cast<System::Byte>(0)));
 			this->button4->Location = System::Drawing::Point(20, 73);
 			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(181, 30);
+			this->button4->Size = System::Drawing::Size(163, 30);
 			this->button4->TabIndex = 26;
 			this->button4->Text = L"Open .key File";
 			this->button4->UseVisualStyleBackColor = true;
@@ -677,7 +657,7 @@ namespace PasswordGenerator {
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->checkBoxNum);
-			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->passwordName);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label6);
@@ -693,9 +673,10 @@ namespace PasswordGenerator {
 			this->Font = (gcnew System::Drawing::Font(L"Bahnschrift SemiCondensed", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->HelpButton = true;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->Name = L"MyForm";
-			this->Text = L"Password Pro";
+			this->Text = L"SECRETary";
 			this->Activated += gcnew System::EventHandler(this, &MyForm::MyForm_Activated);
 			this->panel1->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->characterSlider))->EndInit();
@@ -712,20 +693,14 @@ namespace PasswordGenerator {
 #pragma endregion
 
 		//}
-	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		button2->BackColor = System::Drawing::Color::Crimson;
-		button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(25)), static_cast<System::Int32>(static_cast<System::Byte>(25)),
-			static_cast<System::Int32>(static_cast<System::Byte>(25)));
-	}
+
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		button1->BackColor = System::Drawing::Color::Crimson;
-		button2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(25)), static_cast<System::Int32>(static_cast<System::Byte>(25)),
-			static_cast<System::Int32>(static_cast<System::Byte>(25)));
 	}
 
 	private: System::Void textBox2_Leave(System::Object^ sender, System::EventArgs^ e) {
-		if (textBox2->Text == L"") {
-			textBox2->Text = L"https://www.abc.xyz/";
+		if (passwordName->Text == L"") {
+			passwordName->Text = L"https://www.abc.xyz/";
 		}
 	}
 	private: System::Void textBox1_Enter(System::Object^ sender, System::EventArgs^ e) {
@@ -739,8 +714,8 @@ namespace PasswordGenerator {
 		}
 	}
 	private: System::Void textBox2_Enter(System::Object^ sender, System::EventArgs^ e) {
-		if (textBox2->Text == L"https://www.abc.xyz/") {
-			textBox2->Text = L"";
+		if (passwordName->Text == L"https://www.abc.xyz/") {
+			passwordName->Text = L"";
 		}
 	}
 
@@ -823,11 +798,72 @@ namespace PasswordGenerator {
 	private: System::Void passwordLabel_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void buttonSave_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (System::String::IsNullOrEmpty(openPWDirectory->SelectedPath)) {
+			System::Windows::Forms::MessageBox::Show("No directory chosen. Please select a folder to save the password file.", "No Directory", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Warning);
+			return;
+		}
+		else {
+			std::string fileName = EncryptString(msclr::interop::marshal_as<std::string>(passwordName->Text), key);
+			std::string encryptedString = EncryptString(msclr::interop::marshal_as<std::string>(passwordLabel->Text), key);
+
+			fileName += ".password";
+
+			System::String^ managedPath = openPWDirectory->SelectedPath + "\\" + gcnew System::String(fileName.c_str());
+			std::string stdPath = msclr::interop::marshal_as<std::string>(managedPath);
+			std::ofstream outputFile(stdPath);
+
+			if (outputFile.is_open()) {
+				outputFile << encryptedString;
+				outputFile.close();
+				std::cout << "String successfully saved to " << fileName << std::endl;
+				System::Windows::Forms::MessageBox::Show("String successfully saved to: ", openPWDirectory->SelectedPath + "\\" + gcnew System::String(fileName.c_str()), System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Warning);
+
+				std::string selectedPath = msclr::interop::marshal_as<std::string>(openPWDirectory->SelectedPath);
+				std::vector<std::string> pwFiles = listFiles(selectedPath);
+				listPasswords->Items->Clear();
+				for (int i = 0; i < pwFiles.size(); i++) {
+					std::string userStd = DecryptString(fs::path(pwFiles[i]).stem().string(), key);
+					std::string passStd = DecryptString(readFile(selectedPath + "\\" + pwFiles[i]), key);
+
+
+					System::String^ user = msclr::interop::marshal_as<System::String^>(userStd);
+					System::String^ pass = msclr::interop::marshal_as<System::String^>(passStd);
+
+					listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Username: "), user));
+					listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Password: "), pass));
+					listPasswords->Items->Add(gcnew System::String(L"***************************"));
+				}
+			}
+			else {
+				std::cerr << "Error: Unable to open the file." << std::endl;
+			}
+		}
 	}
 
 	private: System::Void selectFolderButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		openPWDirectory->ShowDialog();
 		directoryLabel->Text = openPWDirectory->SelectedPath;
+		std::string selectedPath = msclr::interop::marshal_as<std::string>(openPWDirectory->SelectedPath);
+		std::vector<std::string> pwFiles = listFiles(selectedPath);
+		listPasswords->Items->Clear();
+		if (key.empty()) {
+			System::Windows::Forms::MessageBox::Show("No key loaded. Please paste or open a key file to decrypt passwords.", "No Key", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Warning);
+			return;
+		}
+		else {
+			for (int i = 0; i < pwFiles.size(); i++) {
+				std::string userStd = DecryptString(fs::path(pwFiles[i]).stem().string(), key);
+				std::string passStd = DecryptString(readFile(selectedPath + "\\" + pwFiles[i]), key);
+
+
+				System::String^ user = msclr::interop::marshal_as<System::String^>(userStd);
+				System::String^ pass = msclr::interop::marshal_as<System::String^>(passStd);
+
+				listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Username: "), user));
+				listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Password: "), pass));
+				listPasswords->Items->Add(gcnew System::String(L"***************************"));
+			}
+		}
 	}
 	private: System::Void button6_Click(System::Object^ sender, System::EventArgs^ e) {
 		key = generateKey(keyLength);
@@ -841,6 +877,27 @@ namespace PasswordGenerator {
 			std::string filename = msclr::interop::marshal_as<std::string>(openKeyDialog->FileName);
 			key = readFile(filename);
 			keyBox->Text = gcnew String(key.c_str());
+		}
+		if (System::String::IsNullOrEmpty(openPWDirectory->SelectedPath)) {
+			System::Windows::Forms::MessageBox::Show("No directory chosen. Please open a password directory to decrypt passwords.", "No Directory", System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Warning);
+			return;
+		}
+		else {
+			std::string selectedPath = msclr::interop::marshal_as<std::string>(openPWDirectory->SelectedPath);
+			std::vector<std::string> pwFiles = listFiles(selectedPath);
+			listPasswords->Items->Clear();
+			for (int i = 0; i < pwFiles.size(); i++) {
+				std::string userStd = DecryptString(fs::path(pwFiles[i]).stem().string(), key);
+				std::string passStd = DecryptString(readFile(selectedPath + "\\" + pwFiles[i]), key);
+
+
+				System::String^ user = msclr::interop::marshal_as<System::String^>(userStd);
+				System::String^ pass = msclr::interop::marshal_as<System::String^>(passStd);
+
+				listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Username: "), user));
+				listPasswords->Items->Add(System::String::Concat(gcnew System::String(L"Password: "), pass));
+				listPasswords->Items->Add(gcnew System::String(L"***************************"));
+			}
 		}
 	}
 	private: System::Void keyBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -868,5 +925,7 @@ namespace PasswordGenerator {
 			}
 		}
 	}
-	};
+	private: System::Void groupBox3_Enter(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }
