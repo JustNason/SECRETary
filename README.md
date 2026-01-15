@@ -1,5 +1,6 @@
 # Password Generator
-I'll make this available to download once school work dies down a bit.
+I'll make this available to download once schoolwork dies down a bit.
 
-Heres a photo if you want to create a mental image:
+Here's a photo if you want to create a mental image:
+
 ![Image](UI_Image.png)
